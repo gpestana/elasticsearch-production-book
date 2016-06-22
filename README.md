@@ -3,7 +3,7 @@
 ###A battlefield tested bundle of best practices to run performant Elasticsearch in production.
 
 
-**Elasticsearch in production** is a practical guide focusing on the best practices to run performant and resilient Elasticsearch clusters in production. The book is organized into X sections. Each section answers a set of questions that all developers and sysadmins will ask themselves when designing and maintaining Elasticsearch clusters.
+**Elasticsearch in production** is a practical guide focusing on the best practices to run performant and resilient Elasticsearch clusters in production. The book is organized into X sections. Each section answers a set of questions that all developers and sysadmins eventually ask themselves when designing and maintaining Elasticsearch clusters.
 
 
 ### Contributing 
