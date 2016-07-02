@@ -1,18 +1,9 @@
 # 2. Data
 
-
-// note: in the beginning, include a short introduction to the chapter. Provide an overview about the things talked about in the chapter and discuss why they are relevant.
-
-
-* (refer sharding data from previous chapter) Though, sharding data is not enough in case something catastrophic happens to the cluster and some data - or even all data - is damaged or deleted. (e.g.) When for some reason data is deleted or the cluster enters in a faulty mode, it is desirable to have data backups and a process to restore the cluster state and data into a new cluster.
-
-
 ## How to backup Elasticsearch data?
 
->
-**TL;DR**
->
-Elasticsearch includes the snapshot and restore modules for creating and managing backups. With those modules, you can create snapshots of individual or a set of indexes and store them in several different places, such as shared filesystem, Amazon S3 and others. The backups can be created and maintained through the API or through the Elastic Curator tool.
+> **TL;DR**
+> Elasticsearch includes the snapshot and restore modules for creating and managing backups. With those modules, you can create snapshots of individual or a set of indexes and store them in several different places, such as shared filesystem, Amazon S3 and others. The backups can be created and maintained through the API or through the Elastic Curator tool.
 
 #### What are Elasticsearch repositories and snapshots?
 
@@ -41,12 +32,14 @@ Yes there is. Elastic Curator (https://github.com/elastic/curator) is a neat too
 Curator provides a CLI interface and HTTP API..
 
 
-## How to assign unassigned shards?
+## What do unassigned shards mean?
+> **TL;DR**
+> 
 
->
-**TL;DR**
->
-To assign unassigned shards, first check which shards are unassigned. Once you spot them, use the HTTP API to implicitly assign the shards to a particular node. In order to avoid this problem in the future, you may want to enable the automatic shard allocation.
+## How to recover from cluster yellow status?
+
+> **TL;DR**
+> To assign unassigned shards, first check which shards are unassigned. Once you spot them, use the HTTP API to implicitly assign the shards to a particular node. In order to avoid this problem in the future, you may want to enable the automatic shard allocation.
 
 When the cluster has unassigned secondary shards its state becomes yellow. An yellow state means that all primary shards are allocated but at least one replica is unassigned. An unassigned replica implies that the replication policy defined in the configurations is not in place in the cluster. As an example, if the replication factor is 1 and one shard is not replicated in at least one data node, then the cluster will turn to a yellow state.
 
@@ -82,13 +75,10 @@ The implicit shard assignment may cause shard to move around in the cluster. If 
 Bear in mind that disabling dynamic shard allocation may result in unassigned shards in the future, since the cluster will not try to reassign shards to nodes if they go missing for some reason.
 
 
-## How to recover from cluster red status when shards are unassigned?
+## How to recover from cluster red status?
 
->
-**TL;DR**
->
-First, inspect which shards are having problems and which indexes are affected. Once you know the problematic index, stop the data flowing to the cluster, delete the faulty index and then restore it back with from backup snapshots. Restart the data flow again and wait until the cluster returns to green.
-
+> **TL;DR**
+> First, inspect which shards are having problems and which indexes are affected. Once you know the problematic index, stop the data flowing to the cluster, delete the faulty index and then restore it back with from backup snapshots. Restart the data flow again and wait until the cluster returns to green.
 
 Your Elasticssearch cluster will turn into red state if there is at least one primary shards missing and all of its replicas. When a cluster is in red state it means that there is data missing. As a side effect the cluster will not accept any new to store any data in the shards that are faulty. 
 

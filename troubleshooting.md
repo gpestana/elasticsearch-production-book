@@ -1,14 +1,10 @@
 # 2. Data
 
-// note: in the beginning, include a short introduction to the chapter. Provide an overview about the things talked about in the chapter and discuss why they are relevant.
-
-
 ## How to recover a red state cluster?
 
-**TL;DR**
-```
-If data was permanently lost, first inspect which shards missing and which indexes are affected. After you know the problematic index, delete it. If you have backups of the damaged indexes, restore them after deleted.
-```
+> **TL;DR**
+> If data was permanently lost, first inspect which shards missing and which indexes are affected. After you know the problematic index, delete it. If you have backups of the damaged indexes, restore them after deleted.
+
 
 A red state Elasticsearch cluster happens when data that once was stored in the cluster is missing and cannot be recovered. If the primary shard and its replicas are missing in the cluster, the index that were part of the missing primary shard turns red. The Elasticsearch cluster turns red when at least one index is red too.
 
