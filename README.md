@@ -12,7 +12,7 @@ All contributions to this book are greatly appreciated and welcomed! Do you have
 
 Typos, improvements and suggestions are welcomed too!
 
-#### Content needed to be added:
+#### New content:
 
 You can check what questions are open to be asnwered and added by filtering the issues by *question* and *open* labels: [questions to be answered](https://github.com/gpestana/elasticsearch-production-book/labels/question). If you have new ideas of what to include in the book, open an issue describing the idea or make a pull request with it.
 
