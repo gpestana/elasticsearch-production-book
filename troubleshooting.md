@@ -84,3 +84,41 @@ To restore a given index from snapshots, make th folowing REST request:
 
 
 Once the indexes are restored, the cluster should recover completely and turn to green state again.
+
+
+## How to remove stuck pending tasks
+
+> TLDR: To remove pending tasks force a master node re-election or soft reboot the cluster.
+
+Pending tasks are queued tasks that the master node needs to perform. Usually, the master node is not the cluster's bottleneck and it can process the actions as fast as required. In rare cases, the master node may start misbehaving and pile up tasks. This leads to performance issues or cluster misbehaving.
+
+There is no explicit way to remove pending tasks. if the master node start piling up pending task often, you need to understand the root causes and fix it. Excess of pending tasks lead to overall performance degradation. The most probable causes for it might be
+
+
+- **The cluster state is very large and is updated frequently**: The load in the master node can become too heavy if you have several indexes and each index has dynamic fields. In this case, you either refactor the data model or add more resources to the master node. Another way to solve the issue is to scale horizontally by starting a new cluster in order to distribute the load among multiple master nodes.
+
+- **All data nodes are unreachable**: This is obviously a problem and will turn the cluster into red state. Once at least one data node is reacheable again, the master will restart to perform the tasks.
+
+- **The master node instance is unresponsive**: When the master node instance misbehaves and is not able to perform tasks, the master node might get clogged up. In those cases, the solution is to force a master re-election and fix the underlying problem in the master node.
+
+
+In the case that the cluster has pending tasks that are affecting other tasks, to restart the master node will solve the problem. In the following example:
+
+```
+$ curl 'localhost:9200/_cat/pending_tasks?v'
+```
+
+```
+insertOrder timeInQueue priority source
+      21611        6.7h NORMAL   put_repository [backup_index_0123]
+      28238       15.8s URGENT   create-index-template [logstash-event], cause [api]
+      28239        8.7s URGENT   create-index-template [logstash-metric], cause [api]
+      28241        2.3s URGENT   create-index-template [logstash-metric], cause [api]
+      28231       18.6s HIGH     put-mapping [index_ABC]
+      28230       27.9s HIGH     put-mapping [index_ABC]
+     ...
+```
+
+The ``put_repository`` task got stuck and several other tasks started to pile up. The solution in mishaving cases is to force a master re-election by restarting the Elasticsearch service in the master node:
+
+``# service elasticsearch restart``
