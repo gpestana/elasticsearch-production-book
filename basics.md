@@ -54,3 +54,40 @@ curl -X PUT localhost:9200/museum -d '
 
 
 ## What are shards?
+
+
+
+## How to update cluster settings through the API?
+
+> **TL;DR;**
+> The */_cluster/settings* endpoint allows to update cluster settings through the API. 
+
+It is possible to change cluster wide settings through the API. The settings to be updated can be either transient or persistent. If transient, the changes will not remain after full cluster restart. On the other hand, the persistent changes will be in place even if the cluster restarts.
+
+The API setting update method is valid for all settings that may be part of the ```elasticsearch.yml``` configuration file. Also, [multiple other settings] (https://www.elastic.co/guide/en/elasticsearch/reference/current/modules.html) can be changed dynamically through the API using the same endpoint.
+
+To update cluster wide settings through the API you can use the following requests:
+
+```
+curl -XPUT localhost:9200/_cluster/settings -d 
+'{
+    "transient" : {
+        "discovery.zen.ping.timeout:" : "60s"
+    }
+}'
+```
+
+```
+curl -XPUT localhost:9200/_cluster/settings -d 
+'{
+    "persistent" : {
+        "discovery.zen.minimum_master_nodes" : 2
+    }
+}'
+```
+
+The following request will list the set of persistent and transient settings changed through the API:
+
+```
+curl -XGET localhost:9200/_cluster/settings
+```
